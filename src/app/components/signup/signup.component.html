@@ -1,0 +1,8 @@
+<!-- Signup component template -->
+<div>
+  <input type="email" [(ngModel)]="email" placeholder="Email" />
+  <input type="password" [(ngModel)]="password" placeholder="Password" />
+  <div *ngIf="passwordError" class="error-message">{{ passwordError }}</div>
+  <button (click)="onSignup()">Signup</button>
+  <div *ngIf="message">{{ message }}</div>
+</div>

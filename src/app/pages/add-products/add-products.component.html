@@ -1,0 +1,333 @@
+<form class="add-products-page" [formGroup]="productForm">
+  <section class="page-toolbar">
+    <div>
+      <p class="page-kicker mb-1">Catalog</p>
+      <h2 class="page-heading mb-0">Add New Product</h2>
+    </div>
+
+    <div class="toolbar-actions">
+      <label class="page-search" aria-label="Search product for add">
+        <i class="bi bi-search"></i>
+        <input type="search" formControlName="pageSearch" placeholder="Search product for add" />
+      </label>
+
+      <button class="btn btn-success action-btn" type="button">
+        <i class="bi bi-upload"></i>
+        <span>Publish Product</span>
+      </button>
+
+      <button class="btn btn-outline-secondary action-btn subtle" type="button">
+        <span>Save to draft</span>
+      </button>
+
+      <button class="icon-square-btn" type="button" aria-label="Add another product block">
+        <i class="bi bi-plus-lg"></i>
+      </button>
+    </div>
+  </section>
+
+  <div class="content-grid">
+    <div class="left-column">
+      <article class="editor-card">
+        <section class="section-block">
+          <div class="section-heading">
+            <div>
+              <h3 class="mb-1">Basic Details</h3>
+              <p class="mb-0">Set the title and description shoppers will see first.</p>
+            </div>
+          </div>
+
+          <div class="field-stack">
+            <label class="field-group">
+              <span class="field-label">Product Name</span>
+              <input class="form-control custom-control" type="text" formControlName="productName" />
+            </label>
+
+            <label class="field-group">
+              <span class="field-label">Product Description</span>
+              <div class="textarea-shell">
+                <textarea
+                  class="form-control custom-control custom-textarea"
+                  rows="6"
+                  formControlName="productDescription"
+                ></textarea>
+
+                <div class="textarea-tools">
+                  <button class="mini-tool" type="button" aria-label="Edit description">
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button class="mini-tool" type="button" aria-label="Enhance description">
+                    <i class="bi bi-stars"></i>
+                  </button>
+                </div>
+              </div>
+            </label>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-heading">
+            <div>
+              <h3 class="mb-1">Pricing</h3>
+              <p class="mb-0">Define product pricing, discounts, tax, and campaign timing.</p>
+            </div>
+          </div>
+
+          <div class="field-stack">
+            <label class="field-group">
+              <span class="field-label">Product Price</span>
+              <div class="price-shell">
+                <input class="form-control custom-control" type="text" formControlName="productPrice" />
+
+                <button class="currency-chip" type="button" aria-label="Selected currency USD">
+                  <span class="flag-dot"></span>
+                  <span>USD</span>
+                  <i class="bi bi-chevron-down"></i>
+                </button>
+              </div>
+            </label>
+
+            <div class="pricing-row">
+              <label class="field-group mb-0">
+                <span class="field-label">Discounted Price (Optional)</span>
+                <input class="form-control custom-control compact-control" type="text" formControlName="discountedPrice" />
+              </label>
+
+              <div class="sale-chip-wrap">
+                <span class="field-label invisible-label">Sale</span>
+                <div class="sale-chip">Sale= {{ saleValue }}</div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <span class="field-label">Tax Included</span>
+              <div class="option-pills" role="radiogroup" aria-label="Tax Included">
+                @for (option of taxOptions; track option) {
+                  <label class="option-pill" [class.active]="productForm.controls.taxIncluded.value === option">
+                    <input class="visually-hidden" type="radio" formControlName="taxIncluded" [value]="option" />
+                    <span>{{ option }}</span>
+                  </label>
+                }
+              </div>
+            </div>
+
+            <div class="date-grid">
+              <label class="field-group mb-0">
+                <span class="field-label">Start</span>
+                <div class="date-shell">
+                  <input class="form-control custom-control" type="date" formControlName="startDate" />
+                  <i class="bi bi-calendar3"></i>
+                </div>
+              </label>
+
+              <label class="field-group mb-0">
+                <span class="field-label">End</span>
+                <div class="date-shell">
+                  <input class="form-control custom-control" type="date" formControlName="endDate" />
+                  <i class="bi bi-calendar3"></i>
+                </div>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-heading">
+            <div>
+              <h3 class="mb-1">Inventory</h3>
+              <p class="mb-0">Keep stock visibility and merchandising options up to date.</p>
+            </div>
+          </div>
+
+          <div class="field-stack">
+            <div class="inventory-grid">
+              <label class="field-group mb-0">
+                <span class="field-label">Stock Quantity</span>
+                <input class="form-control custom-control" type="text" formControlName="stockQuantity" />
+              </label>
+
+              <label class="field-group mb-0">
+                <span class="field-label">Stock Status</span>
+                <div class="select-shell">
+                  <select class="form-select custom-control" formControlName="stockStatus">
+                    @for (status of stockStatuses; track status) {
+                      <option [value]="status">{{ status }}</option>
+                    }
+                  </select>
+                </div>
+              </label>
+            </div>
+
+            <div class="toggle-row">
+              <div>
+                <span class="field-label d-block mb-1">Unlimited toggle</span>
+                <p class="helper-copy mb-0">Keep inventory always available for pre-orders.</p>
+              </div>
+
+              <button
+                class="switch-btn"
+                type="button"
+                [class.active]="productForm.controls.unlimited.value"
+                aria-label="Toggle unlimited stock"
+                (click)="toggleUnlimited()"
+              >
+                <span></span>
+              </button>
+            </div>
+
+            <label class="featured-check">
+              <input class="form-check-input" type="checkbox" formControlName="featured" />
+              <span>Highlight this product in a featured section.</span>
+            </label>
+          </div>
+        </section>
+
+        <div class="card-actions">
+          <button class="btn btn-outline-secondary action-btn subtle" type="button">Save to draft</button>
+          <button class="btn btn-success action-btn" type="button">Publish Product</button>
+        </div>
+      </article>
+    </div>
+
+    <div class="right-column">
+      <article class="side-card">
+        <div class="section-heading compact">
+          <div>
+            <h3 class="mb-1">Upload Product Image</h3>
+            <p class="mb-0">Product Image</p>
+          </div>
+        </div>
+
+        <div class="preview-shell">
+          <div class="row preview-grid g-3">
+            <div class="col-12 col-lg-8">
+              @if (mainPreview(); as previewImage) {
+                <button
+                  class="image-preview-card main-preview-card"
+                  type="button"
+                  [class.active]="selectedPreviewId() === previewImage.id"
+                  [attr.aria-label]="previewImage.title"
+                  (click)="selectPreview(previewImage.id)"
+                >
+                  <span class="preview-badge">Main Preview</span>
+
+                  <div class="image-frame main-frame">
+                    <!-- <img
+                      class="preview-image main-image"
+                      [ngSrc]="previewImage.src"
+                      [alt]="previewImage.caption"
+                      width="280"
+                      height="340"
+                      priority
+                    /> -->
+
+                    <img  width="280" height="340" priority="" class="preview-image main-image" alt="Front product preview for iPhone 15" loading="eager" fetchpriority="high" decoding="sync" ng-img="true" src="https://www.designinfo.in/wp-content/uploads/2023/01/Apple-iPhone-14-Pro-Mobile-Phone-493177786-i-1-1200Wx1200H-485x485.jpeg">
+                  </div>
+
+                  <div class="preview-copy">
+                    <strong>{{ previewImage.title }}</strong>
+                    <small>{{ previewImage.caption }}</small>
+                  </div>
+                </button>
+              }
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="side-preview-stack">
+                @for (image of sidePreviewImages(); track image.id) {
+                  <button
+                    class="image-preview-card support-preview-card"
+                    type="button"
+                    [class.active]="selectedPreviewId() === image.id"
+                    [attr.aria-label]="image.title"
+                    (click)="selectPreview(image.id)"
+                  >
+                    <div class="image-frame support-frame">
+                      <!-- <img
+                        class="preview-image support-image"
+                        [ngSrc]="image.src"
+                        [alt]="image.caption"
+                        width="160"
+                        height="120"
+                      /> -->
+                      <img _ngcontent-ng-c228128397="" width="160" height="120" class="preview-image support-image" alt="Clean front-facing product view." loading="lazy" fetchpriority="auto" decoding="auto" ng-img="true" src="https://resources.claroshop.com/medios-plazavip/s2/31468/5065014/6507b15bdf1c6-2140254563_-2126614354-1600x1600.jpg">
+                    </div>
+
+                    <div class="preview-copy">
+                      <strong>{{ image.title }}</strong>
+                      <small>{{ image.caption }}</small>
+                    </div>
+                  </button>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="preview-actions">
+            <input #productImageInput class="visually-hidden" type="file" accept="image/*" />
+            <button
+              class="btn btn-outline-secondary rounded-pill px-3"
+              type="button"
+              (click)="productImageInput.click()"
+            >
+              Upload Image
+            </button>
+            <button class="btn btn-success rounded-pill px-3" type="button" (click)="productImageInput.click()">
+              Replace
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="side-card">
+        <div class="section-heading compact">
+          <div>
+            <h3 class="mb-1">Categories</h3>
+            <p class="mb-0">Organize this item so it’s easy to discover.</p>
+          </div>
+        </div>
+
+        <div class="field-stack">
+          <label class="field-group">
+            <span class="field-label">Product Categories</span>
+            <div class="select-shell">
+              <select class="form-select custom-control" formControlName="category">
+                @for (option of categoryOptions; track option.value) {
+                  <option [value]="option.value">{{ option.label }}</option>
+                }
+              </select>
+            </div>
+          </label>
+
+          <label class="field-group">
+            <span class="field-label">Product Tag</span>
+            <div class="select-shell">
+              <select class="form-select custom-control" formControlName="tag">
+                @for (option of tagOptions; track option.value) {
+                  <option [value]="option.value">{{ option.label }}</option>
+                }
+              </select>
+            </div>
+          </label>
+
+          <div class="field-group mb-0">
+            <span class="field-label">Select your color</span>
+            <div class="color-row" role="group" aria-label="Select your color">
+              @for (color of colorOptions; track color.id) {
+                <button
+                  class="color-swatch"
+                  type="button"
+                  [class.active]="selectedColor() === color.id"
+                  [style.--swatch-color]="color.hex"
+                  [attr.aria-label]="'Select ' + color.label"
+                  (click)="selectColor(color.id)"
+                ></button>
+              }
+            </div>
+            <p class="selected-copy mb-0">Selected: {{ selectedColorLabel() }}</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</form>

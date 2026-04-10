@@ -1,0 +1,194 @@
+<section class="transaction-page">
+  <div class="page-heading mb-3">
+    <div>
+      <p class="page-kicker mb-1">Payments</p>
+      <h2 class="page-title mb-0">Transaction</h2>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-3 align-items-stretch">
+    <div class="col-12 col-xxl-8">
+      <div class="row g-3 h-100">
+        @for (card of summaryCards(); track card.title) {
+          <div class="col-12 col-sm-6">
+            <article
+              class="summary-card"
+              [class.warning]="card.accent === 'warning'"
+              [class.danger]="card.accent === 'danger'"
+              [class.primary]="card.accent === 'primary'"
+            >
+              <div class="card-meta">
+                <span class="card-icon"><i [class]="card.icon"></i></span>
+                <button class="dots-btn" type="button" aria-label="More options">
+                  <i class="bi bi-three-dots"></i>
+                </button>
+              </div>
+              <p class="metric-label mb-1">{{ card.title }}</p>
+              <h3 class="metric-value mb-1">{{ card.value }}</h3>
+              <div class="metric-footer">
+                <span class="metric-growth">{{ card.growth }}</span>
+                <small>{{ card.subtitle }}</small>
+              </div>
+            </article>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="col-12 col-xxl-4">
+      <section class="payment-card h-100">
+        <div class="payment-head mb-3">
+          <div>
+            <p class="page-kicker mb-1">Wallet</p>
+            <h3 class="payment-title mb-0">Payment Method</h3>
+          </div>
+          <button class="dots-btn" type="button" aria-label="More payment options">
+            <i class="bi bi-three-dots"></i>
+          </button>
+        </div>
+
+        <div class="bank-card mb-3">
+          <small>Primary Card</small>
+          <strong>**** **** **** 2345</strong>
+          <div class="card-row">
+            <span>Noman Manzoor</span>
+            <span>02/30</span>
+          </div>
+        </div>
+
+        <div class="payment-stats mb-3">
+          <div><span>Status</span><strong>Active</strong></div>
+          <div><span>Transactions</span><strong>1,250</strong></div>
+          <div><span>Revenue</span><strong>$50,000</strong></div>
+        </div>
+
+        <button class="link-btn mb-3" type="button">View Transactions</button>
+
+        <div class="payment-actions">
+          <button class="btn btn-success rounded-pill px-3" type="button">Add Card</button>
+          <button class="btn btn-outline-secondary rounded-pill px-3" type="button">
+            Deactivate
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <section class="transaction-panel">
+    <div class="panel-toolbar mb-3">
+      <div class="tab-list">
+        @for (tab of transactionTabs; track tab.value) {
+          <button
+            class="tab-pill"
+            type="button"
+            [class.active]="activeTab() === tab.value"
+            (click)="setActiveTab(tab.value)"
+          >
+            <span>{{ tab.label }}</span>
+            @if (tab.count) {
+              <strong>({{ tab.count }})</strong>
+            }
+          </button>
+        }
+      </div>
+
+      <div class="toolbar-actions d-flex flex-nowrap">
+        <label class="search-box">
+          <i class="bi bi-search"></i>
+          <input type="search" placeholder="Search payment history" />
+        </label>
+        <button class="icon-btn" type="button" aria-label="Filter transactions">
+          <i class="bi bi-funnel"></i>
+        </button>
+        <button class="icon-btn" type="button" aria-label="Sort transactions">
+          <i class="bi bi-arrow-down-up"></i>
+        </button>
+        <button class="icon-btn" type="button" aria-label="More options">
+          <i class="bi bi-three-dots"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table transaction-table align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Customer Id</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Method</th>
+            <th>Status</th>
+            <th class="text-end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of transactions(); track $index) {
+            <tr>
+              <td>{{ item.customerId }}</td>
+              <td class="fw-semibold">{{ item.name }}</td>
+              <td>{{ item.date }}</td>
+              <td>{{ item.total }}</td>
+              <td>{{ item.method }}</td>
+              <td>
+                <span
+                  class="status-badge"
+                  [class.pending]="item.status === 'Pending'"
+                  [class.canceled]="item.status === 'Canceled'"
+                >
+                  <span class="status-dot"></span>
+                  {{ item.status }}
+                </span>
+              </td>
+              <td class="text-end">
+                <button class="view-link" type="button">View Details</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-wrap mt-3">
+      <button
+        class="btn btn-outline-secondary rounded-pill px-3"
+        type="button"
+        (click)="previousPage()"
+        [disabled]="activePage() === 1"
+      >
+        Previous
+      </button>
+
+      <div class="page-list">
+        @for (page of paginationPages; track page) {
+          <button
+            class="page-btn"
+            type="button"
+            [class.active]="activePage() === page"
+            (click)="setPage(page)"
+          >
+            {{ page }}
+          </button>
+        }
+        <span class="page-dots">…</span>
+        <button
+          class="page-btn"
+          type="button"
+          [class.active]="activePage() === totalPages"
+          (click)="setPage(totalPages)"
+        >
+          {{ totalPages }}
+        </button>
+      </div>
+
+      <button
+        class="btn btn-success rounded-pill px-3"
+        type="button"
+        (click)="nextPage()"
+        [disabled]="activePage() === totalPages"
+      >
+        Next
+      </button>
+    </div>
+  </section>
+</section>

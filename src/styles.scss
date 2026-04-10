@@ -1,0 +1,268 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+:root {
+  --dp-bg: #f8f9fa;
+  --dp-surface: #ffffff;
+  --dp-surface-soft: #f8fcf9;
+  --dp-border: #e5efe8;
+  --dp-primary: #2f9e69;
+  --dp-text: #183b2b;
+  --dp-muted: #6f8479;
+  --dp-shadow: 0 20px 45px rgba(15, 23, 42, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  font-family:
+    'Inter',
+    'Segoe UI',
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  background:
+    radial-gradient(circle at top left, #edf9f1 0%, #f8fbf9 42%, #f3f6f5 100%),
+    var(--dp-bg);
+  color: var(--dp-text);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+body.dark-mode {
+  --dp-bg: #121212;
+  --dp-surface: #1e1e1e;
+  --dp-surface-soft: #252525;
+  --dp-border: #303638;
+  --dp-text: #ffffff;
+  --dp-muted: #a8b2ac;
+  --dp-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+  background:
+    radial-gradient(circle at top left, #1a241d 0%, #141414 42%, #101010 100%),
+    var(--dp-bg);
+}
+
+body,
+.topbar-card,
+.sidebar-card,
+.dashboard-card,
+.summary-card,
+.overview-card,
+.table-card,
+.order-card,
+.order-hero,
+.profile-summary-card,
+.metric-tile,
+.detail-tile,
+.customer-modal,
+.notifications-menu,
+.settings-menu,
+.search-box,
+.icon-btn,
+.menu-btn,
+.collapse-btn,
+.close-btn,
+.page-pill,
+.action-btn,
+.form-control,
+.form-select,
+.btn,
+.table-responsive {
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
+.table > :not(caption) > * > * {
+  background-color: transparent;
+}
+
+.badge.text-bg-success-subtle {
+  background: #e9f8ef !important;
+  color: #1e8b57 !important;
+}
+
+.modal-dialog {
+  max-width: 600px;
+}
+
+body.dark-mode .topbar-card,
+body.dark-mode .sidebar-card,
+body.dark-mode .dashboard-card,
+body.dark-mode .summary-card,
+body.dark-mode .overview-card,
+body.dark-mode .table-card,
+body.dark-mode .order-card,
+body.dark-mode .order-hero,
+body.dark-mode .profile-summary-card,
+body.dark-mode .customer-modal,
+body.dark-mode .notifications-menu,
+body.dark-mode .settings-menu,
+body.dark-mode .table-responsive {
+  background: var(--dp-surface) !important;
+  border-color: var(--dp-border) !important;
+  box-shadow: var(--dp-shadow) !important;
+  color: var(--dp-text) !important;
+}
+
+body.dark-mode .metric-tile,
+body.dark-mode .detail-tile,
+body.dark-mode .search-box,
+body.dark-mode .icon-btn,
+body.dark-mode .menu-btn,
+body.dark-mode .collapse-btn,
+body.dark-mode .close-btn,
+body.dark-mode .page-pill,
+body.dark-mode .action-btn,
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode .chip.subtle,
+body.dark-mode .tab-switch,
+body.dark-mode .customer-profile-card,
+body.dark-mode .sidebar-section {
+  background: var(--dp-surface-soft) !important;
+  border-color: var(--dp-border) !important;
+  color: var(--dp-text) !important;
+}
+
+body.dark-mode .page-title,
+body.dark-mode .section-title,
+body.dark-mode .profile-title,
+body.dark-mode .summary-value,
+body.dark-mode .metric-tile strong,
+body.dark-mode .detail-tile strong,
+body.dark-mode .notification-title,
+body.dark-mode .settings-user strong,
+body.dark-mode .brand h5,
+body.dark-mode .nav-link,
+body.dark-mode th,
+body.dark-mode td,
+body.dark-mode .table,
+body.dark-mode .form-label,
+body.dark-mode .profile-pill p,
+body.dark-mode .section-subtitle {
+  color: var(--dp-text) !important;
+}
+
+body.dark-mode .eyebrow,
+body.dark-mode .page-subtitle,
+body.dark-mode .section-kicker,
+body.dark-mode .section-text,
+body.dark-mode .profile-meta,
+body.dark-mode .profile-pill small,
+body.dark-mode .metric-tile small,
+body.dark-mode .metric-tile span,
+body.dark-mode .notification-message,
+body.dark-mode .notification-time,
+body.dark-mode .notifications-header small,
+body.dark-mode .settings-user small,
+body.dark-mode .summary-label,
+body.dark-mode .section-label {
+  color: var(--dp-muted) !important;
+}
+
+body.dark-mode .nav-link:hover,
+body.dark-mode .notification-item:hover,
+body.dark-mode .settings-item:hover,
+body.dark-mode .customer-table tbody tr:hover {
+  background: rgba(47, 158, 105, 0.1) !important;
+}
+
+body.dark-mode .nav-link.active,
+body.dark-mode .range-btn.active,
+body.dark-mode .page-pill.active {
+  background: rgba(47, 158, 105, 0.2) !important;
+  border-color: rgba(47, 158, 105, 0.35) !important;
+  color: #8ee3b5 !important;
+  box-shadow: inset 0 0 0 1px rgba(47, 158, 105, 0.22);
+}
+
+body.dark-mode .customer-table th,
+body.dark-mode .customer-table td,
+body.dark-mode .table > :not(caption) > * > * {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-mode .modal {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.summary-card,
+.payment-card,
+.transaction-panel {
+  padding: 1rem 1.15rem;
+}
+
+@media (max-width: 991.98px) {
+  html {
+    font-size: 15px;
+  }
+
+  .topbar-card,
+  .sidebar-card,
+  .dashboard-card,
+  .summary-card,
+  .overview-card,
+  .table-card,
+  .order-card,
+  .order-hero,
+  .profile-summary-card,
+  .customer-modal {
+    border-radius: 18px !important;
+  }
+
+  .table-responsive {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 767.98px) {
+  html {
+    font-size: 14.5px;
+  }
+
+  .page-title {
+    font-size: 1.12rem !important;
+  }
+
+  .page-subtitle {
+    font-size: 0.9rem !important;
+  }
+
+  .btn,
+  .icon-btn,
+  .menu-btn,
+  .page-pill,
+  .action-btn {
+    min-height: 42px;
+  }
+
+  .modal-dialog {
+    max-width: calc(100vw - 1rem);
+    margin: 0.75rem auto;
+  }
+}
+
+@media (max-width: 575.98px) {
+  html {
+    font-size: 14px;
+  }
+}

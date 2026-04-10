@@ -1,0 +1,197 @@
+<section class="admin-role-page">
+  <!-- <div class="page-header">
+    <div>
+      <p class="page-kicker mb-1">Administration</p>
+      <h2 class="page-title mb-0">About section</h2>
+    </div>
+  </div> -->
+
+  <div class="admin-grid">
+    <div class="left-column">
+      <article class="profile-card">
+        <div class="card-header-row">
+          <h3 class="mb-0">Profile</h3>
+          <div class="icon-pair">
+            <button class="circle-icon" type="button" aria-label="Open profile actions">
+              <i class="bi bi-three-dots"></i>
+            </button>
+            <button class="circle-icon" type="button" aria-label="Open profile settings">
+              <i class="bi bi-sliders"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="profile-summary">
+          <img [ngSrc]="avatarImage" alt="Wade Warren profile" width="112" height="112" class="profile-avatar" />
+          <h4 class="mb-1">Wade Warren</h4>
+          <p class="profile-email mb-0">wade.warren@example.com</p>
+        </div>
+
+        <div class="social-block">
+          <p class="meta-label mb-2">Linked with Social media</p>
+
+          <div class="social-row">
+            @for (item of socialItems; track item.label) {
+              <button class="social-btn" type="button" [class.google]="item.tone === 'google'" [class.facebook]="item.tone === 'facebook'" [class.twitter]="item.tone === 'twitter'" [class.dribbble]="item.tone === 'dribbble'" [attr.aria-label]="item.label">
+                <i [class]="item.icon"></i>
+              </button>
+            }
+          </div>
+
+          <button class="btn btn-outline-secondary rounded-pill px-3 social-outline" type="button">
+            Social media
+          </button>
+        </div>
+      </article>
+
+      <article class="password-card">
+        <div class="card-header-row align-start">
+          <div>
+            <h3 class="mb-1">Change Password</h3>
+          </div>
+          <button class="help-link" type="button">
+            <i class="bi bi-info-circle"></i>
+            <span>Need help</span>
+          </button>
+        </div>
+
+        <form class="password-form" [formGroup]="profileForm">
+          <label class="field-group">
+            <span class="field-label">Current Password</span>
+            <div class="password-shell">
+              <input class="form-control custom-control" [type]="showCurrentPassword() ? 'text' : 'password'" formControlName="currentPassword" placeholder="Enter password" />
+              <button class="input-icon" type="button" aria-label="Toggle current password visibility" (click)="togglePassword('current')">
+                <i class="bi" [class.bi-eye]="!showCurrentPassword()" [class.bi-eye-slash]="showCurrentPassword()"></i>
+              </button>
+            </div>
+            <small class="helper-link">Forgot Current Password? Click here</small>
+          </label>
+
+          <label class="field-group">
+            <span class="field-label">New Password</span>
+            <div class="password-shell">
+              <input class="form-control custom-control" [type]="showNewPassword() ? 'text' : 'password'" formControlName="newPassword" placeholder="Enter password" />
+              <button class="input-icon" type="button" aria-label="Toggle new password visibility" (click)="togglePassword('new')">
+                <i class="bi" [class.bi-eye]="!showNewPassword()" [class.bi-eye-slash]="showNewPassword()"></i>
+              </button>
+            </div>
+          </label>
+
+          <label class="field-group">
+            <span class="field-label">Re-enter Password</span>
+            <div class="password-shell">
+              <input class="form-control custom-control" [type]="showConfirmPassword() ? 'text' : 'password'" formControlName="confirmPassword" placeholder="Enter password" />
+              <button class="input-icon" type="button" aria-label="Toggle re-entered password visibility" (click)="togglePassword('confirm')">
+                <i class="bi" [class.bi-eye]="!showConfirmPassword()" [class.bi-eye-slash]="showConfirmPassword()"></i>
+              </button>
+            </div>
+          </label>
+
+          <button class="btn btn-success save-btn" type="button">Save Change</button>
+        </form>
+      </article>
+    </div>
+
+    <div class="right-column">
+      <article class="update-card">
+        <div class="card-header-row align-start">
+          <div>
+            <h3 class="mb-1">Profile Update</h3>
+          </div>
+          <button class="btn btn-outline-secondary edit-btn" type="button">
+            <i class="bi bi-pencil-square"></i>
+            <span>Edit</span>
+          </button>
+        </div>
+
+        <form class="update-form" [formGroup]="profileForm">
+          <div class="avatar-toolbar">
+            <img [ngSrc]="avatarImage" alt="Wade Warren large avatar" width="72" height="72" class="mini-avatar" />
+            <div class="avatar-actions">
+              <button class="btn btn-success rounded-pill px-3" type="button">Upload New</button>
+              <button class="btn btn-outline-secondary rounded-pill px-3" type="button">Delete</button>
+            </div>
+          </div>
+
+          <div class="form-grid two-col">
+            <label class="field-group">
+              <span class="field-label">First Name</span>
+              <input class="form-control custom-control" type="text" formControlName="firstName" />
+            </label>
+
+            <label class="field-group">
+              <span class="field-label">Last Name</span>
+              <input class="form-control custom-control" type="text" formControlName="lastName" />
+            </label>
+          </div>
+
+          <div class="form-grid two-col">
+            <label class="field-group">
+              <span class="field-label">Password</span>
+              <div class="password-shell">
+                <input class="form-control custom-control" [type]="showProfilePassword() ? 'text' : 'password'" formControlName="profilePassword" />
+                <button class="input-icon" type="button" aria-label="Toggle profile password visibility" (click)="togglePassword('profile')">
+                  <i class="bi" [class.bi-eye]="!showProfilePassword()" [class.bi-eye-slash]="showProfilePassword()"></i>
+                </button>
+              </div>
+            </label>
+
+            <label class="field-group">
+              <span class="field-label">Phone Number</span>
+              <div class="decorated-input">
+                <input class="form-control custom-control decorated-control right-padding" type="text" formControlName="phoneNumber" />
+                <span class="input-addon">🇺🇸</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="form-grid two-col">
+            <label class="field-group">
+              <span class="field-label">E-mail</span>
+              <input class="form-control custom-control" type="email" formControlName="email" />
+            </label>
+
+            <label class="field-group">
+              <span class="field-label">Date of Birth</span>
+              <div class="decorated-input">
+                <input class="form-control custom-control decorated-control right-padding" type="text" formControlName="dateOfBirth" />
+                <span class="input-addon"><i class="bi bi-calendar3"></i></span>
+              </div>
+            </label>
+          </div>
+
+          <label class="field-group">
+            <span class="field-label">Location</span>
+            <input class="form-control custom-control" type="text" formControlName="location" />
+          </label>
+
+          <label class="field-group">
+            <span class="field-label">Credit Card</span>
+            <div class="decorated-input">
+              <span class="input-leading mastercard-icon">
+                <i class="bi bi-credit-card-2-front"></i>
+              </span>
+              <input class="form-control custom-control decorated-control left-right-padding" type="text" formControlName="creditCard" />
+              <span class="input-addon"><i class="bi bi-chevron-down"></i></span>
+            </div>
+          </label>
+
+          <label class="field-group">
+            <span class="field-label">Biography</span>
+            <div class="bio-shell">
+              <textarea class="form-control custom-control biography-area" rows="6" formControlName="biography" placeholder="Enter a biography about you"></textarea>
+              <div class="bio-tools">
+                <button class="mini-tool" type="button" aria-label="Edit biography">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="mini-tool" type="button" aria-label="Format biography">
+                  <i class="bi bi-stars"></i>
+                </button>
+              </div>
+            </div>
+          </label>
+        </form>
+      </article>
+    </div>
+  </div>
+</section>
