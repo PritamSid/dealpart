@@ -1,0 +1,1 @@
+import"./chunk-2NFLSA4Y.js";var t=[{path:"",data:{eyebrow:"Administration",title:"About section",subtitle:"Manage admin profile details, social connections, and password settings from one workspace."},loadComponent:()=>import("./chunk-U3BIVPGB.js").then(o=>o.AdminRoleComponent)}];export{t as ADMIN_ROLE_ROUTES};

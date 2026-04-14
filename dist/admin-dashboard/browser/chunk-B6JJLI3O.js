@@ -1,0 +1,1 @@
+import"./chunk-2NFLSA4Y.js";var o=[{path:"",data:{eyebrow:"Catalog",title:"Add New Product",subtitle:"Create polished product listings, pricing rules, inventory details, and media from one workspace."},loadComponent:()=>import("./chunk-NZOCOU77.js").then(t=>t.AddProductsComponent)}];export{o as ADD_PRODUCTS_ROUTES};

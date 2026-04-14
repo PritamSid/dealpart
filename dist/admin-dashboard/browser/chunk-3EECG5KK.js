@@ -1,0 +1,1 @@
+import"./chunk-2NFLSA4Y.js";var e=[{path:"",data:{eyebrow:"Welcome back",title:"Dashboard Overview",subtitle:"Monitor sales, products, and customer performance in one place."},loadComponent:()=>import("./chunk-PO5UPQC6.js").then(o=>o.DashboardPageComponent)}];export{e as DASHBOARD_ROUTES};

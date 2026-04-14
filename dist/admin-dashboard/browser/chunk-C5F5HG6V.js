@@ -1,0 +1,1 @@
+import"./chunk-2NFLSA4Y.js";var o=[{path:"",data:{eyebrow:"Payments",title:"Transaction",subtitle:"Track revenue, payment methods, and order status across your ecommerce dashboard."},loadComponent:()=>import("./chunk-VT4742HQ.js").then(t=>t.TransactionComponent)}];export{o as TRANSACTION_ROUTES};

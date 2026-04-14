@@ -4,73 +4,13 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 50000;
 
 app.use(cors());
 app.use(express.json());
 
 const dbPath = path.join(__dirname, 'data.db');
 const db = new sqlite3.Database(dbPath);
-
-function initDatabase() {
-  db.serialize(() => {
-    const schemaSql = require('fs').readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
-    db.exec(schemaSql);
-
-    db.get('SELECT COUNT(*) AS c FROM customers', (err, row) => {
-      if (!row.c) {
-        const categories = [
-          ['Electronics', 'bi bi-cpu', 'mint'],
-          ['Fashion', 'bi bi-handbag', 'peach'],
-          ['Home', 'bi bi-house-heart', 'lavender'],
-          ['Accessories', 'bi bi-smartwatch', 'sky'],
-        ];
-        categories.forEach(cat => db.run('INSERT INTO categories (name, icon, accent) VALUES (?, ?, ?)', cat));
-
-        const products = [
-          ['Smart Watch X2', 'Wearables', '$299', 'bi bi-smartwatch', 'mint', 'Electronics', 72, '72 in stock', 'In Stock', '2026-03-25', 154, 1, 1],
-          ['Minimal Desk Lamp', 'Home', '$89', 'bi bi-lightbulb', 'peach', 'Home', 54, '54 in stock', 'In Stock', '2026-04-01', 120, 1, 1],
-          ['Street Hoodie', 'Fashion', '$119', 'bi bi-stars', 'sky', 'Fashion', 38, '38 in stock', 'Low Stock', '2026-03-28', 102, 1, 1],
-          ['Noise Cancel Headset', 'Electronic', '$220', 'bi bi-headphones', 'mint', 'Electronics', 14, '14 in stock', 'Low Stock', '2026-03-20', 85, 0, 1],
-          ['Layered Linen Shirt', 'Fashion', '$68', 'bi bi-person-badge', 'sky', 'Fashion', 22, '22 in stock', 'In Stock', '2026-03-22', 63, 0, 1],
-          ['Nordic Coffee Set', 'Home', '$94', 'bi bi-cup-hot', 'peach', 'Home', 8, '8 in stock', 'Low Stock', '2026-03-26', 58, 0, 1],
-          ['Canvas Backpack', 'Accessories', '$74', 'bi bi-bag', 'mint', 'Accessories', 0, '0 in stock', 'Out of Stock', '2026-03-15', 918, 0, 0],
-          ['Bluetooth Speaker Mini', 'Electronics', '$96', 'bi bi-speaker', 'sky', 'Electronics', 0, '0 in stock', 'Out of Stock', '2026-03-15', 684, 0, 0],
-          ['Wireless Earbuds Pro', 'Electronics', '$129', 'bi bi-earbuds', 'mint', 'Electronics', 1, '1 in stock', 'Stock', '2026-03-16', 1245, 0, 0],
-          ['Coffee Maker', 'Home', '$140', 'bi bi-cup-hot', 'lavender', 'Home', 35, '35 in stock', 'In Stock', '2026-03-27', 80, 0, 0]
-        ];
-        products.forEach(p => db.run('INSERT INTO products (name, subtitle, price, icon, tone, category, stock, stock_text, status, created_date, order_count, is_top, is_new) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', p));
-
-        const seedCustomers = [
-          ['CUST-1101', 'John Doe', 'john.doe@dealpart.demo', '+1 (555) 102-4411', 25, '$3,450', 'Active'],
-          ['CUST-1102', 'Jane Smith', 'jane.smith@dealpart.demo', '+1 (555) 304-2208', 5, '$250', 'Inactive'],
-          ['CUST-1103', 'Emily Davis', 'emily.davis@dealpart.demo', '+1 (555) 778-1990', 30, '$4,600', 'VIP'],
-          ['CUST-1104', 'Michael Brown', 'michael.brown@dealpart.demo', '+1 (555) 411-8922', 18, '$2,180', 'Active'],
-          ['CUST-1105', 'Sophia Turner', 'sophia.turner@dealpart.demo', '+1 (555) 965-3014', 11, '$1,190', 'VIP'],
-          ['CUST-1106', 'Liam Wilson', 'liam.wilson@dealpart.demo', '+1 (555) 872-1164', 9, '$780', 'Inactive'],
-        ];
-        seedCustomers.forEach(c => db.run('INSERT INTO customers (customer_id, name, email, phone, order_count, total_spend, status) VALUES (?, ?, ?, ?, ?, ?, ?)', c));
-
-        const txs = [
-          ['CUST-10234', 'John Doe', '2026-03-31', 'Paid', 1240.0, 'CC'],
-          ['CUST-10235', 'Anna Smith', '2026-03-30', 'Pending', 840.0, 'PayPal'],
-          ['CUST-10236', 'Will Brown', '2026-03-30', 'Paid', 2150.0, 'Bank'],
-          ['CUST-10237', 'Emma Lee', '2026-03-29', 'Pending', 410.0, 'CC'],
-          ['CUST-10238', 'Mohamed Ali', '2026-03-29', 'Paid', 1090.0, 'PayPal'],
-          ['CUST-10239', 'Aaron Clark', '2026-03-28', 'Canceled', 53.0, 'Bank'],
-          ['CUST-10240', 'Mia White', '2026-03-28', 'Paid', 780.0, 'CC']
-        ];
-        txs.forEach(tx => db.run('INSERT INTO transactions (customer_id, name, order_date, status, amount, method) VALUES (?, ?, ?, ?, ?, ?)', tx));
-
-        db.run('INSERT INTO country_sales (country, sales, change_pct, positive, progress) VALUES (?, ?, ?, ?, ?)', ['USA', '$98.5K', '+12.8%', 1, 84]);
-        db.run('INSERT INTO country_sales (country, sales, change_pct, positive, progress) VALUES (?, ?, ?, ?, ?)', ['Brazil', '$74.2K', '+8.3%', 1, 67]);
-        db.run('INSERT INTO country_sales (country, sales, change_pct, positive, progress) VALUES (?, ?, ?, ?, ?)', ['Australia', '$61.9K', '-3.2%', 0, 53]);
-      }
-    });
-  });
-}
-
-initDatabase();
 
 function dbGet(sql, params = []) {
   return new Promise((resolve, reject) => {
@@ -98,6 +38,82 @@ function dbRun(sql, params = []) {
     });
   });
 }
+
+async function initDatabase() {
+  const schemaSql = require('fs').readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
+  await new Promise((resolve, reject) => {
+    db.exec(schemaSql, (err) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+
+  const row = await dbGet('SELECT COUNT(*) AS c FROM customers');
+  if (!row.c) {
+    const categories = [
+      ['Electronics', 'bi bi-cpu', 'mint'],
+      ['Fashion', 'bi bi-handbag', 'peach'],
+      ['Home', 'bi bi-house-heart', 'lavender'],
+      ['Accessories', 'bi bi-smartwatch', 'sky'],
+    ];
+    for (const cat of categories) {
+      await dbRun('INSERT INTO categories (name, icon, accent) VALUES (?, ?, ?)', cat);
+    }
+
+    const products = [
+      ['Smart Watch X2', 'Wearables', '$299', 'bi bi-smartwatch', 'mint', 'Electronics', 72, '72 in stock', 'In Stock', '2026-03-25', 154, 1, 1],
+      ['Minimal Desk Lamp', 'Home', '$89', 'bi bi-lightbulb', 'peach', 'Home', 54, '54 in stock', 'In Stock', '2026-04-01', 120, 1, 1],
+      ['Street Hoodie', 'Fashion', '$119', 'bi bi-stars', 'sky', 'Fashion', 38, '38 in stock', 'Low Stock', '2026-03-28', 102, 1, 1],
+      ['Noise Cancel Headset', 'Electronic', '$220', 'bi bi-headphones', 'mint', 'Electronics', 14, '14 in stock', 'Low Stock', '2026-03-20', 85, 0, 1],
+      ['Layered Linen Shirt', 'Fashion', '$68', 'bi bi-person-badge', 'sky', 'Fashion', 22, '22 in stock', 'In Stock', '2026-03-22', 63, 0, 1],
+      ['Nordic Coffee Set', 'Home', '$94', 'bi bi-cup-hot', 'peach', 'Home', 8, '8 in stock', 'Low Stock', '2026-03-26', 58, 0, 1],
+      ['Canvas Backpack', 'Accessories', '$74', 'bi bi-bag', 'mint', 'Accessories', 0, '0 in stock', 'Out of Stock', '2026-03-15', 918, 0, 0],
+      ['Bluetooth Speaker Mini', 'Electronics', '$96', 'bi bi-speaker', 'sky', 'Electronics', 0, '0 in stock', 'Out of Stock', '2026-03-15', 684, 0, 0],
+      ['Wireless Earbuds Pro', 'Electronics', '$129', 'bi bi-earbuds', 'mint', 'Electronics', 1, '1 in stock', 'Stock', '2026-03-16', 1245, 0, 0],
+      ['Coffee Maker', 'Home', '$140', 'bi bi-cup-hot', 'lavender', 'Home', 35, '35 in stock', 'In Stock', '2026-03-27', 80, 0, 0]
+    ];
+    for (const p of products) {
+      await dbRun('INSERT INTO products (name, subtitle, price, icon, tone, category, stock, stock_text, status, created_date, order_count, is_top, is_new) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', p);
+    }
+
+    const seedCustomers = [
+      ['CUST-1101', 'John Doe', 'john.doe@dealpart.demo', '+1 (555) 102-4411', 25, '$3,450', 'Active'],
+      ['CUST-1102', 'Jane Smith', 'jane.smith@dealpart.demo', '+1 (555) 304-2208', 5, '$250', 'Inactive'],
+      ['CUST-1103', 'Emily Davis', 'emily.davis@dealpart.demo', '+1 (555) 778-1990', 30, '$4,600', 'VIP'],
+      ['CUST-1104', 'Michael Brown', 'michael.brown@dealpart.demo', '+1 (555) 411-8922', 18, '$2,180', 'Active'],
+      ['CUST-1105', 'Sophia Turner', 'sophia.turner@dealpart.demo', '+1 (555) 965-3014', 11, '$1,190', 'VIP'],
+      ['CUST-1106', 'Liam Wilson', 'liam.wilson@dealpart.demo', '+1 (555) 872-1164', 9, '$780', 'Inactive'],
+    ];
+    for (const c of seedCustomers) {
+      await dbRun('INSERT INTO customers (customer_id, name, email, phone, order_count, total_spend, status) VALUES (?, ?, ?, ?, ?, ?, ?)', c);
+    }
+
+    const txs = [
+      ['CUST-10234', 'John Doe', '2026-03-31', 'Paid', 1240.0, 'CC'],
+      ['CUST-10235', 'Anna Smith', '2026-03-30', 'Pending', 840.0, 'PayPal'],
+      ['CUST-10236', 'Will Brown', '2026-03-30', 'Paid', 2150.0, 'Bank'],
+      ['CUST-10237', 'Emma Lee', '2026-03-29', 'Pending', 410.0, 'CC'],
+      ['CUST-10238', 'Mohamed Ali', '2026-03-29', 'Paid', 1090.0, 'PayPal'],
+      ['CUST-10239', 'Aaron Clark', '2026-03-28', 'Canceled', 53.0, 'Bank'],
+      ['CUST-10240', 'Mia White', '2026-03-28', 'Paid', 780.0, 'CC']
+    ];
+    for (const tx of txs) {
+      await dbRun('INSERT INTO transactions (customer_id, name, order_date, status, amount, method) VALUES (?, ?, ?, ?, ?, ?)', tx);
+    }
+
+    await dbRun('INSERT INTO country_sales (country, sales, change_pct, positive, progress) VALUES (?, ?, ?, ?, ?)', ['USA', '$98.5K', '+12.8%', 1, 84]);
+    await dbRun('INSERT INTO country_sales (country, sales, change_pct, positive, progress) VALUES (?, ?, ?, ?, ?)', ['Brazil', '$74.2K', '+8.3%', 1, 67]);
+    await dbRun('INSERT INTO country_sales (country, sales, change_pct, positive, progress) VALUES (?, ?, ?, ?, ?)', ['Australia', '$61.9K', '-3.2%', 0, 53]);
+  }
+}
+
+initDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Dealpart API server is running at http://localhost:${PORT}`);
+  });
+}).catch(err => {
+  console.error('Failed to initialize database:', err);
+});
 
 async function toDashboardFormat() {
   const totalSalesRow = await dbGet('SELECT SUM(amount) AS total FROM transactions');
@@ -321,6 +337,10 @@ app.delete('/api/customers/:id', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Dealpart API server is running at http://localhost:${PORT}`);
+initDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Dealpart API server is running at http://localhost:${PORT}`);
+  });
+}).catch(err => {
+  console.error('Failed to initialize database:', err);
 });

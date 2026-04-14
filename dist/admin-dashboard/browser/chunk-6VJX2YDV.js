@@ -1,0 +1,1 @@
+import"./chunk-2NFLSA4Y.js";var o=[{path:"",data:{eyebrow:"CRM",title:"Customer Management",subtitle:"Review customer growth, loyalty, and support activity with live demo data."},loadComponent:()=>import("./chunk-OXLVXEEV.js").then(t=>t.CustomerComponent)}];export{o as CUSTOMERS_ROUTES};

@@ -1,0 +1,1 @@
+import"./chunk-2NFLSA4Y.js";var t=[{path:"",data:{eyebrow:"Catalog",title:"Discover",subtitle:"Browse trending categories, manage products, and keep your catalog organized."},loadComponent:()=>import("./chunk-QG74SH6U.js").then(o=>o.CategoryComponent)}];export{t as CATEGORIES_ROUTES};
